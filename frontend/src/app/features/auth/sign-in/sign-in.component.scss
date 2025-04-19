@@ -1,0 +1,53 @@
+.auth-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #e2e8f0;
+    font-family: 'Segoe UI', sans-serif;
+
+    a {
+      cursor: pointer;
+    }
+  }
+  
+  .auth-card {
+    background-color: #f1f5f9;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+  
+    .title {
+      text-align: center;
+      font-size: 1.5rem;
+      color: #1e293b;
+      margin-bottom: 1.5rem;
+    }
+
+    .switch-text {
+      text-align: center;
+      font-size: 0.95rem;
+      color: #475569;
+      margin-top: 1rem;
+
+      a {
+        color: #1e40af;
+        font-weight: 600;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .auth-card {
+      padding: 1.5rem;
+    }
+  }
+  

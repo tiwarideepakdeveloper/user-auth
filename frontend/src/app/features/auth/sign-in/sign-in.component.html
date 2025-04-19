@@ -1,0 +1,26 @@
+<div class="auth-container">
+    <div class="auth-card">
+      <h2 class="title">Sign In</h2>
+      <app-form-container [form]="form" (formSubmit)="onSubmit()">
+          <app-input
+            type="email"
+            placeholder="Email"
+            [control]="emailControl"
+          />
+    
+          <app-input
+            type="password"
+            placeholder="Password"
+            [control]="passwordControl"
+          />
+    
+          <app-button label="Sign In" />
+    
+          <p class="switch-text">
+            Don't have an account?
+            <a routerLink="/auth/sign-up">Sign Up</a>
+          </p>
+      </app-form-container>
+    </div>
+  </div>
+  

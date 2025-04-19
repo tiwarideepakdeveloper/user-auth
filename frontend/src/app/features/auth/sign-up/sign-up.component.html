@@ -1,0 +1,38 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <h2 class="title">Sign In</h2>
+    <app-form-container [form]="form" (formSubmit)="onSubmit()">
+      <div class="group-input-box">
+        <app-input
+          type="text"
+          placeholder="First Name"
+          [control]="firstNameControl"
+        />
+        <app-input
+          type="text"
+          placeholder="Last Name"
+          [control]="lastNameControl"
+        />
+      </div>
+
+        <app-input
+          type="email"
+          placeholder="Email"
+          [control]="emailControl"
+        />
+  
+        <app-input
+          type="password"
+          placeholder="Password"
+          [control]="passwordControl"
+        />
+  
+        <app-button label="Sign Up" />
+  
+        <p class="switch-text">
+          Don't have an account?
+          <a routerLink="/auth/sign-in">Sign In</a>
+        </p>
+    </app-form-container>
+  </div>
+</div>

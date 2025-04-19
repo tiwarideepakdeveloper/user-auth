@@ -1,0 +1,26 @@
+<div class="dashboard">
+    <input type="checkbox" id="menu-toggle" [checked]="isSideBarOpen" hidden />
+    <aside class="sidebar">
+        <div class="logo">MyApp</div>
+        <nav class="nav">
+            <app-admin-link [class]="{'nav-item' : true, 'active': false}">Dashboard</app-admin-link>
+            <app-admin-link [route]="['users']" class="nav-item">Users</app-admin-link>
+            <app-admin-link [route]="['roles']" class="nav-item">Roles</app-admin-link>
+            <app-admin-link [route]="['payment']" class="nav-item">Payment</app-admin-link>
+        </nav>
+    </aside>
+    <div class="main">
+        <header class="header">
+            <div class="header-left">
+                <span for="menu-toggle" (click)="isSideBarOpen = true" class="menu-icon">&#9776;</span>
+            </div>
+            <div class="header-right">
+                <img src="https://i.pravatar.cc/40" alt="User" class="profile-icon" />
+            </div>
+        </header>
+        <div class="content" (click)="isSideBarOpen = false">
+            <router-outlet />
+        </div>
+    </div>
+</div>
+  

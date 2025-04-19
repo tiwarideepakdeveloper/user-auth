@@ -1,0 +1,16 @@
+<div class="input-wrapper">
+    <label *ngIf="label" class="input-label">{{ label }}</label>
+
+    <input
+      [type]="type"
+      [placeholder]="placeholder"
+      [formControl]="control"
+      class="input-field"
+    />
+
+    <div *ngIf="control?.touched && control?.invalid" class="error-text">
+      <ng-container *ngIf="control?.errors?.['required']">This field is required.</ng-container>
+      <ng-container *ngIf="control?.errors?.['email']">Invalid email address.</ng-container>
+    </div>
+</div>
+  
