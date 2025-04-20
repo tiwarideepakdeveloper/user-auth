@@ -19,14 +19,16 @@ export class AppComponent implements OnInit {
   ){}
 
   ngOnInit(): void {
-    const token = localStorage.getItem('token');
-    if(token) {
-      this.authService.getProfile().subscribe((response) => {
-        localStorage.setItem('token', response.data.token);
-        this.store.dispatch(loginSuccess({ user: response.data }));
+    if(localStorage.getItem('token')) {
+      this.authService.getProfile().subscribe({
+        next: (response) => {
+          this.store.dispatch(loginSuccess({ user: response.data }));
+        },
+        error: (err) => {
+          localStorage.removeItem('token');
+        }
       });
-      return;
     }
-    localStorage.removeItem('token');
+    return;
   }
 }
