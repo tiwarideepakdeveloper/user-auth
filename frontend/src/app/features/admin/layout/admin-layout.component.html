@@ -4,7 +4,7 @@
         <div class="logo">MyApp</div>
         <nav class="nav">
             <app-admin-link [class]="{'nav-item' : true, 'active': false}">Dashboard</app-admin-link>
-            <app-admin-link [route]="['users']" class="nav-item">Users</app-admin-link>
+            <app-admin-link [route]="['users']" class="nav-item" *appCan="'user:read'">Users</app-admin-link>
             <app-admin-link [route]="['roles']" class="nav-item">Roles</app-admin-link>
             <app-admin-link [route]="['payment']" class="nav-item">Payment</app-admin-link>
         </nav>

@@ -5,6 +5,7 @@ import { FormElementsModule } from '../../../shared/form-elements/form-elements.
 import { AuthService } from '../../../core/services/auth/auth.service';
 import { Store } from '@ngrx/store';
 import { loginSuccess } from '../../../core/store/user/user.actions';
+import { setPermissions } from '../../../core/store/permissions/permissions.actions';
 
 @Component({
   selector: 'app-sign-in',
@@ -41,6 +42,8 @@ export class SignInComponent {
       next: (response) => {
         localStorage.setItem('token', response.data.token);
         this.store.dispatch(loginSuccess({ user: response.data }));
+        let permissions = response.data.roles.flatMap((role) => role.permissions).map((perm) => perm.name);
+        this.store.dispatch(setPermissions({ permissions }));
       },
       error: (err) => {
         console.log(err);
