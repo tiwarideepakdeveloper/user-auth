@@ -1,4 +1,3 @@
-// store/user/user.actions.ts
 import { createAction, props } from '@ngrx/store';
 import { User } from '../../models/user.model';
 

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { User } from '../../models/user.model';
 import { Store } from '@ngrx/store';
 import { loginSuccess, logout } from '../../store/user/user.actions';
-import { LoginRequest, LoginResponse } from '../../models/auth.model';
+import { SignInRequest, AuthResponse, SignUpRequest } from '../../models/auth.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthEndPoints } from '../../enums/api.enum';
 import { Observable, tap } from 'rxjs';
@@ -14,15 +14,19 @@ export class AuthService {
 
   constructor(private store: Store, private http: HttpClient) { }
 
-  login(loginRequest: LoginRequest) : Observable <LoginResponse> {
-    return this.http.post<LoginResponse>(AuthEndPoints.SIGN_IN, loginRequest);
+  signIn(signInRequest: SignInRequest) : Observable <AuthResponse> {
+    return this.http.post<AuthResponse>(AuthEndPoints.SIGN_IN, signInRequest);
   }
   
-  getProfile() : Observable <LoginResponse> {
+  signUp(signUpRequest: SignUpRequest) : Observable <AuthResponse> {
+    return this.http.post<AuthResponse>(AuthEndPoints.SIGN_UP, signUpRequest);
+  }
+
+  getProfile() : Observable <AuthResponse> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${localStorage.getItem('token')}`,
     });
-    return this.http.get<LoginResponse>(AuthEndPoints.USER_PROFILE, {headers});
+    return this.http.get<AuthResponse>(AuthEndPoints.USER_PROFILE, {headers});
   }
 
   logout() {

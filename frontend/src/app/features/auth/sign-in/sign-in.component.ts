@@ -37,9 +37,14 @@ export class SignInComponent {
 
   onSubmit() {
     if(this.form.invalid) return;
-    this.authService.login(this.form.value).subscribe((response) => {
-      localStorage.setItem('token', response.data.token);
-      this.store.dispatch(loginSuccess({ user: response.data }));
+    this.authService.signIn(this.form.value).subscribe({
+      next: (response) => {
+        localStorage.setItem('token', response.data.token);
+        this.store.dispatch(loginSuccess({ user: response.data }));
+      },
+      error: (err) => {
+        console.log(err);
+      }
     });
   }
 }

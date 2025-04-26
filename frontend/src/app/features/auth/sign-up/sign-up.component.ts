@@ -34,10 +34,8 @@ export class SignUpComponent {
   }
 
   onSubmit() {
-    if(this.form.invalid){
-      console.log(this.emailControl?.errors?.['required']);
-      return;
-    }
-    console.log(this.form.value);
+    if(this.form.invalid) return;
+
+    
   }
 }
