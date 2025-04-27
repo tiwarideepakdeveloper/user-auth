@@ -1,16 +1,16 @@
 import { User } from "./user.model";
 
 export interface SignInRequest {
-    email: string;
-    password: string;
+  user_email: string;
+  user_password: string;
 }
 
 export interface SignUpRequest {
-  first_name: string;
-  last_name: string;
-  email: string;
-  password: string;
-  cnf_password: string;
+  user_first_name: string;
+  user_last_name: string;
+  user_email: string;
+  user_password: string;
+  user_cnf_password: string;
 }
 
 export interface AuthResponse {

@@ -1,17 +1,17 @@
 import { ConflictException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Like, Repository } from 'typeorm';
-import { User } from './entities/user.entity';
+import { TblUser } from './entities/user.entity';
 import { CreateUser } from './interfaces/create.interface';
-import { Role } from 'src/roles/entities/role.entity';
+import { TblRole } from 'src/roles/entities/role.entity';
 import { SearchUser } from './interfaces/search.interface';
 import { UserList } from './interfaces/list.interface';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(User) private userRepo: Repository<User>, 
-    @InjectRepository(Role) private readonly roleRepo: Repository<Role>
+    @InjectRepository(TblUser) private userRepo: Repository<TblUser>, 
+    @InjectRepository(TblRole) private readonly roleRepo: Repository<TblRole>
   ) {}
 
   async list(searchUser : SearchUser): Promise<UserList> {
@@ -36,16 +36,16 @@ export class UsersService {
     };
   }
 
-  async create(createUser: CreateUser): Promise<User> {
+  async create(createUser: CreateUser): Promise<TblUser> {
     
-    const existing = await this.userRepo.findOne({ where: { email: createUser.email } });
+    const existing = await this.userRepo.findOne({ where: { user_email: createUser.user_email } });
     if (existing) throw new ConflictException('Email already in use');
 
     const user = this.userRepo.create(createUser);
-    const defaultRole = await this.roleRepo.findOneBy({ name: 'user' });
+    const defaultRole = await this.roleRepo.findOne({ where: { role_name: 'user' }, relations: ['permissions'] });
     
     if (defaultRole) {
-      user.roles = [defaultRole];
+      user.user_roles = [defaultRole];
     }
 
     try {
@@ -55,14 +55,14 @@ export class UsersService {
     }
   }
 
-  async findByEmail(email: string): Promise<User> {
-    const user = await this.userRepo.findOne({ where: { email }, relations: ['roles', 'roles.permissions'] });
+  async findByEmail(user_email: string): Promise<TblUser> {
+    const user = await this.userRepo.findOne({ where: { user_email }, relations: ['user_roles', 'user_roles.permissions'] });
     if(!user) throw new NotFoundException('User not found');
     return user;
   }
 
-  async findById(id: number): Promise<User> {
-    const user = await this.userRepo.findOne({ where: { id } });
+  async findById(user_id: number): Promise<TblUser> {
+    const user = await this.userRepo.findOne({ where: { user_id } });
     if(!user) throw new NotFoundException('User not found');
     return user;
   }

@@ -28,12 +28,12 @@ export class SignInComponent {
   ) {
 
     this.form = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
+      user_email: ['', [Validators.required, Validators.email]],
+      user_password: ['', Validators.required]
     });
     
-    this.emailControl = this.form.get('email') as FormControl;
-    this.passwordControl = this.form.get('password') as FormControl;
+    this.emailControl = this.form.get('user_email') as FormControl;
+    this.passwordControl = this.form.get('user_password') as FormControl;
   }
 
   onSubmit() {
@@ -42,7 +42,7 @@ export class SignInComponent {
       next: (response) => {
         localStorage.setItem('token', response.data.token);
         this.store.dispatch(loginSuccess({ user: response.data }));
-        let permissions = response.data.roles.flatMap((role) => role.permissions).map((perm) => perm.name);
+        let permissions = response.data.user_roles.flatMap((role) => role.permissions).map((perm) => perm.permission_name);
         this.store.dispatch(setPermissions({ permissions: permissions }));
       },
       error: (err) => {

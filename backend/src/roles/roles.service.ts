@@ -1,20 +1,20 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Role } from './entities/role.entity';
+import { TblRole } from './entities/role.entity';
 import { Repository } from 'typeorm';
 import { CreateRoleDto } from './dto/create-role.dto';
-import { Permission } from './entities/permission.entity';
+import { TblPermission } from './entities/permission.entity';
 
 @Injectable()
 export class RolesService {
   constructor(
-    @InjectRepository(Role)
-    private readonly roleRepo: Repository<Role>,
-    @InjectRepository(Permission)
-    private readonly permissionRepo: Repository<Permission>,
+    @InjectRepository(TblRole)
+    private readonly roleRepo: Repository<TblRole>,
+    @InjectRepository(TblPermission)
+    private readonly permissionRepo: Repository<TblPermission>,
   ) {}
 
-  async createRole(createRoleDto: CreateRoleDto): Promise<Role> {
+  async createRole(createRoleDto: CreateRoleDto): Promise<TblRole> {
     const permissions = await this.permissionRepo.findByIds(createRoleDto.permissionIds);
 
     if (permissions.length === 0) {
@@ -22,14 +22,14 @@ export class RolesService {
     }
 
     const role = this.roleRepo.create({
-      name: createRoleDto.name,
+      role_name: createRoleDto.name,
       permissions,
     });
 
     return this.roleRepo.save(role);
   }
 
-  async findAllPermissions(): Promise<Permission[]> {
+  async findAllPermissions(): Promise<TblPermission[]> {
     return await this.permissionRepo.find();
   }
 }

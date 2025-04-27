@@ -1,9 +1,8 @@
 import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { Roles } from '../common/decorators/roles.decorator';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { AuthUser } from 'src/common/decorators/auth-user.decorator';
-import { User } from './entities/user.entity';
+import { TblUser } from './entities/user.entity';
 import { Permissions } from 'src/common/decorators/permissions.decorator';
 import { PermissionsGuard } from 'src/common/guards/permissions.guard';
 import { SearchDto } from './dto/search.dto';
@@ -23,13 +22,12 @@ export class UsersController {
   }
 
   @Get('profile')
-  getProfile(@AuthUser() user : User) {
+  getProfile(@AuthUser() user : TblUser) {
     return new ApiResponse(user, 'User Fetched Success');
   }
 
   @Get('admin')
-  @Roles('admin')
-  getAdminData(@AuthUser() user : User) {
+  getAdminData(@AuthUser() user : TblUser) {
     return {
       message: 'Hello Admin',
       user: user,

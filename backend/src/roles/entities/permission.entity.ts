@@ -1,10 +1,10 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-@Entity('permissions')
-export class Permission {
+@Entity('tbl_permissions')
+export class TblPermission {
   @PrimaryGeneratedColumn()
-  id: number;
+  permission_id: number;
 
   @Column({ unique: true })
-  name: string;
+  permission_name: string;
 }

@@ -1,16 +1,16 @@
 import { InjectRepository } from "@nestjs/typeorm";
-import { Role } from "./entities/role.entity";
-import { Permission } from "./entities/permission.entity";
+import { TblRole } from "./entities/role.entity";
+import { TblPermission } from "./entities/permission.entity";
 import { In, Repository } from "typeorm";
 import { Injectable } from "@nestjs/common";
 
 @Injectable()
 export class RoleAndPermissionSeed {
     constructor(
-        @InjectRepository(Role)
-        private readonly roleRepo: Repository<Role>,
-        @InjectRepository(Permission)
-        private readonly permissionRepo: Repository<Permission>,
+        @InjectRepository(TblRole)
+        private readonly roleRepo: Repository<TblRole>,
+        @InjectRepository(TblPermission)
+        private readonly permissionRepo: Repository<TblPermission>,
       ) {}
 
     async seedData() {
@@ -26,26 +26,26 @@ export class RoleAndPermissionSeed {
             'issue:report',
         ];
 
-        for (const name of permissions) {
-            const exists = await this.permissionRepo.findOne({ where: { name } });
+        for (const permission_name of permissions) {
+            const exists = await this.permissionRepo.findOne({ where: { permission_name } });
             console.log(exists);
             
             if (!exists) {
-                await this.permissionRepo.save({ name });
+                await this.permissionRepo.save({ permission_name });
             }
         }
-        let adminRole = await this.roleRepo.findOne({ where: { name: 'admin' }, relations: ['permissions'], });
+        let adminRole = await this.roleRepo.findOne({ where: { role_name: 'admin' }, relations: ['permissions'], });
         if(!adminRole) 
-            adminRole = this.roleRepo.create({ name: 'admin' });
+            adminRole = this.roleRepo.create({ role_name: 'admin' });
         
         adminRole.permissions = await this.permissionRepo.find();
         await this.roleRepo.save(adminRole);
 
-        let userRole = await this.roleRepo.findOne({ where: { name: 'user' }, relations: ['permissions'], });
+        let userRole = await this.roleRepo.findOne({ where: { role_name: 'user' }, relations: ['permissions'], });
         if(!userRole) 
-            userRole = this.roleRepo.create({ name: 'user' });
+            userRole = this.roleRepo.create({ role_name: 'user' });
         
-        userRole.permissions = await this.permissionRepo.find({ where : { name: In(['issue:report', 'payment:read'])}});
+        userRole.permissions = await this.permissionRepo.find({ where : { permission_name: In(['issue:report', 'payment:read'])}});
         await this.roleRepo.save(userRole);
         return  true;
     }

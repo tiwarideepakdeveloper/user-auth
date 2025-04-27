@@ -23,8 +23,10 @@ export class AppComponent implements OnInit {
     if(localStorage.getItem('token')) {
       this.authService.getProfile().subscribe({
         next: (response) => {
+          console.log(response);
+          
           this.store.dispatch(loginSuccess({ user: response.data }));
-          let permissions = response.data.roles.flatMap((role) => role.permissions).map((perm) => perm.name);
+          let permissions = response.data.user_roles.flatMap((role) => role.permissions).map((perm) => perm.permission_name);
           this.store.dispatch(setPermissions({ permissions: permissions }));
         },
         error: (err) => {

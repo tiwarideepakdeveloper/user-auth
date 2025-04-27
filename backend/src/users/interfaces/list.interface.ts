@@ -1,7 +1,7 @@
-import { User } from "../entities/user.entity";
+import { TblUser } from "../entities/user.entity";
 
 export interface UserList {
-    users: User[],
+    users: TblUser[],
     page: number,
     limit: number,
     recordCount: number

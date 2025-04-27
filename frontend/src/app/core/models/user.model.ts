@@ -1,24 +1,20 @@
 import { UserType } from "../enums/user.enum";
 
 export interface User {
-  id: string;
-  first_name: string;
-  last_name: string;
-  email: string;
+  user_id: string;
+  user_first_name: string;
+  user_last_name: string;
+  user_email: string;
   token: string;
   user_type: UserType.ADMIN | UserType.TEACHER | UserType.LEARNER | UserType.STAFF;
-  roles: Role[];
-}
-
-export interface Permissions {
-  name: string
+  user_roles: Role[];
 }
 
 export interface Role {
-  name: string;
+  role_name: string;
   permissions: Permission[];
 }
 
 export interface Permission {
-  name: string;
+  permission_name: string;
 }

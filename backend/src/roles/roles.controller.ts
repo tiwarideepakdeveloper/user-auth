@@ -6,7 +6,10 @@ import { ApiResponse } from 'src/common/response/response.dto';
 
 @Controller('roles')
 export class RolesController {
-  constructor(private readonly rolesService: RolesService, private readonly roleSeed: RoleAndPermissionSeed) {
+  constructor(
+    private readonly rolesService: RolesService, 
+    private readonly roleSeed: RoleAndPermissionSeed
+  ) {
     
   }
 

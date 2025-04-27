@@ -11,6 +11,7 @@
     <div *ngIf="control?.touched && control?.invalid" class="error-text">
       <ng-container *ngIf="control?.errors?.['required']">This field is required.</ng-container>
       <ng-container *ngIf="control?.errors?.['email']">Invalid email address.</ng-container>
+      <ng-container *ngIf="control?.errors?.['cnfPasswordMisMatch']">Password and confirm password should be same.</ng-container>
     </div>
 </div>
   
