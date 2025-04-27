@@ -8,12 +8,16 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { userReducer } from './core/store/user/user.reducer';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { httpErrorInterceptor } from './core/interceptors/http-error/http-error.interceptor';
+import { permissionsReducer } from './core/store/permissions/permissions.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideStore({ user: userReducer }),
+    provideStore({ 
+      user: userReducer, 
+      permissions: permissionsReducer 
+    }),
     provideEffects(),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
     provideHttpClient(

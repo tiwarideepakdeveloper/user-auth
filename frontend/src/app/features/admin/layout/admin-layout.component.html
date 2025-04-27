@@ -5,8 +5,9 @@
         <nav class="nav">
             <app-admin-link [class]="{'nav-item' : true, 'active': false}">Dashboard</app-admin-link>
             <app-admin-link [route]="['users']" class="nav-item" *appCan="'user:read'">Users</app-admin-link>
-            <app-admin-link [route]="['roles']" class="nav-item">Roles</app-admin-link>
-            <app-admin-link [route]="['payment']" class="nav-item">Payment</app-admin-link>
+            <app-admin-link [route]="['roles']" class="nav-item" *appCan="'role:read'">Roles</app-admin-link>
+            <app-admin-link [route]="['payment']" class="nav-item" *appCan="'payment:read'">Payment</app-admin-link>
+            <app-admin-link [route]="['payment']" class="nav-item" *appCan="'issue:report'">Report Issue</app-admin-link>
         </nav>
     </aside>
     <div class="main">

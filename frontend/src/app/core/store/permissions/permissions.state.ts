@@ -1,3 +1,5 @@
+import { Permission } from "../../models/user.model";
+
 export interface PermissionsState {
   permissions: string[];
 }

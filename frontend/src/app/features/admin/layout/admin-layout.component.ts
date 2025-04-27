@@ -6,7 +6,12 @@ import { CanDirective } from '../../../core/directives/can/can.directive';
 
 @Component({
   selector: 'app-admin-layout',
-  imports: [RouterOutlet, AdminLinkComponent, CommonModule, CanDirective],
+  imports: [
+    RouterOutlet, 
+    AdminLinkComponent, 
+    CommonModule, 
+    CanDirective
+  ],
   templateUrl: './admin-layout.component.html',
   styleUrl: './admin-layout.component.scss'
 })

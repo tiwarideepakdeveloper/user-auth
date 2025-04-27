@@ -43,7 +43,7 @@ export class SignInComponent {
         localStorage.setItem('token', response.data.token);
         this.store.dispatch(loginSuccess({ user: response.data }));
         let permissions = response.data.roles.flatMap((role) => role.permissions).map((perm) => perm.name);
-        this.store.dispatch(setPermissions({ permissions }));
+        this.store.dispatch(setPermissions({ permissions: permissions }));
       },
       error: (err) => {
         console.log(err);

@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { AuthService } from './core/services/auth/auth.service';
 import { loginSuccess } from './core/store/user/user.actions';
 import { Store } from '@ngrx/store';
+import { setPermissions } from './core/store/permissions/permissions.actions';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +24,8 @@ export class AppComponent implements OnInit {
       this.authService.getProfile().subscribe({
         next: (response) => {
           this.store.dispatch(loginSuccess({ user: response.data }));
+          let permissions = response.data.roles.flatMap((role) => role.permissions).map((perm) => perm.name);
+          this.store.dispatch(setPermissions({ permissions: permissions }));
         },
         error: (err) => {
           localStorage.removeItem('token');

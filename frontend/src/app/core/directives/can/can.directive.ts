@@ -2,6 +2,7 @@ import { Directive, Input, OnDestroy, TemplateRef, ViewContainerRef } from '@ang
 import { select, Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { selectPermissions } from '../../store/permissions/permissions.selectors';
+import { Permission } from '../../models/user.model';
 
 @Directive({
   selector: '[appCan]'
