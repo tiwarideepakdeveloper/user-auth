@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AdminLinkComponent } from '../component/admin-link/admin-link.component';
 import { CommonModule } from '@angular/common';
-import { CanDirective } from '../../../core/directives/can/can.directive';
+import { AppDirectiveModule } from '../../../core/directives/app-directive.module';
+import { DropDownComponent } from '../../../shared/drop-down/drop-down.component';
 
 @Component({
   selector: 'app-admin-layout',
@@ -10,7 +11,8 @@ import { CanDirective } from '../../../core/directives/can/can.directive';
     RouterOutlet, 
     AdminLinkComponent, 
     CommonModule, 
-    CanDirective
+    AppDirectiveModule,
+    DropDownComponent
   ],
   templateUrl: './admin-layout.component.html',
   styleUrl: './admin-layout.component.scss'
