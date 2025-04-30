@@ -20,5 +20,10 @@ import { DropDownComponent } from '../../../shared/drop-down/drop-down.component
 export class AdminLayoutComponent {
     
   isSideBarOpen : boolean = false;
+  isDropdownOpen: boolean = false;
 
+  dropDownValueChange(isDropdownOpen: boolean){
+    this.isDropdownOpen = true;
+    console.log(this.isDropdownOpen);
+  }
 }

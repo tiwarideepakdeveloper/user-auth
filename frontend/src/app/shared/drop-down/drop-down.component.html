@@ -1,1 +1,8 @@
-<p>drop-down works!</p>
+<div class="dropdown">
+    <div (click)="isOpen = !isOpen"><ng-content></ng-content></div>
+    <div *ngIf="isOpen" class="dropdown-menu">
+        <div (click)="changePassword()" class="dropdown-btn">Change Password</div>
+        <div (click)="logout()" class="dropdown-btn">Logout</div>
+    </div>
+</div>
+  

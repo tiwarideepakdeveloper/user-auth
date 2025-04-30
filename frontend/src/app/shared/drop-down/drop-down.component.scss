@@ -1,0 +1,34 @@
+.dropdown {
+    position: relative;
+    display: inline-block;
+  
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      min-width: 180px;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      margin-top: 6px;
+      padding: 10px;
+      z-index: 1000;
+  
+      .dropdown-btn {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 6px;
+        background: transparent;
+        color: #000000;
+        border-radius: 4px;
+        font-size: 14px;
+        cursor: pointer;
+        text-align: start;
+        &:hover {
+          color: rgb(53, 52, 52);
+        }
+      }
+    }
+  }
+  
