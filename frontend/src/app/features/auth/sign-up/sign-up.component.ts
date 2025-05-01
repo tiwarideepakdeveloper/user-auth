@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormElementsModule } from '../../../shared/form-elements/form-elements.module';
 import { AuthService } from '../../../core/services/auth/auth.service';
 import { Store } from '@ngrx/store';
@@ -27,7 +27,8 @@ export class SignUpComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private store: Store
+    private store: Store,
+    private router: Router,
   ) {
     this.form = this.fb.group({
       user_first_name: ['', Validators.required],
@@ -56,6 +57,7 @@ export class SignUpComponent {
         this.store.dispatch(loginSuccess({ user: response.data }));
         let permissions = response.data.user_roles.flatMap((role) => role.permissions).map((perm) => perm.permission_name);
         this.store.dispatch(setPermissions({ permissions: permissions }));
+        this.router.navigate(['/admin']);
       },
       error: (err) => {
         console.log(err);

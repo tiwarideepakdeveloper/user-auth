@@ -9,6 +9,7 @@ import { userReducer } from './core/store/user/user.reducer';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { httpErrorInterceptor } from './core/interceptors/http-error/http-error.interceptor';
 import { permissionsReducer } from './core/store/permissions/permissions.reducer';
+import { authInterceptor } from './core/interceptors/auth/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,7 +22,10 @@ export const appConfig: ApplicationConfig = {
     provideEffects(),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
     provideHttpClient(
-      withInterceptors([httpErrorInterceptor])
+      withInterceptors([
+        httpErrorInterceptor,
+        authInterceptor
+      ])
     )
   ]
 };

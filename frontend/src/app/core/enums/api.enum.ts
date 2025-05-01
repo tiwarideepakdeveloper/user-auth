@@ -3,6 +3,7 @@ export enum AuthEndPoints {
 
     SIGN_IN = BASE_URL + '/sign-in',
     SIGN_UP = BASE_URL + '/sign-up',
+    SIGN_OUT = BASE_URL + '/sign-out',
     USER_PROFILE = BASE_URL + '/profile',
 }
 

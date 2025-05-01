@@ -51,6 +51,16 @@ export class AuthController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Post('sign-out')
+  async signOut(@AuthUser() user: UserProfile) {
+    // Black list token in DB or use redis
+    return new ApiResponse(
+      {},
+      'Logout Success',
+    );
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Get('profile')
   async profile(@AuthUser() user: UserProfile) {
     return new ApiResponse(
