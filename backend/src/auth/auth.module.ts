@@ -6,6 +6,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { RolesModule } from 'src/roles/roles.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { TblSignInAttempt } from './entities/signin-attempt';
 
 @Module({
   imports: [
@@ -19,6 +21,7 @@ import { RolesModule } from 'src/roles/roles.module';
       }),
       inject: [ConfigService],
     }),
+    TypeOrmModule.forFeature([TblSignInAttempt])
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy],

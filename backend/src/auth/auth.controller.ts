@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignUpDto } from './dto/signup.dto';
 import { SignInDto } from './dto/signin.dto';
@@ -33,8 +33,11 @@ export class AuthController {
   }
 
   @Post('sign-in')
-  async signIn(@Body() signInDto: SignInDto) {
-    const user = await this.authService.validateUser(signInDto.user_email, signInDto.user_password);
+  async signIn(@Body() signInDto: SignInDto, @Req() req : any) {
+
+    let sginat_ip = req.ip || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+
+    const user = await this.authService.validateUser(signInDto.user_email, signInDto.user_password, sginat_ip);
     const tokens = await this.authService.signIn(user);
     return new ApiResponse(
       {

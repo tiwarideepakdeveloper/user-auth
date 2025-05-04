@@ -11,6 +11,9 @@ import { httpErrorInterceptor } from './core/interceptors/http-error/http-error.
 import { permissionsReducer } from './core/store/permissions/permissions.reducer';
 import { authInterceptor } from './core/interceptors/auth/auth.interceptor';
 
+import { provideToastr } from 'ngx-toastr';
+import { provideAnimations } from '@angular/platform-browser/animations';
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
@@ -26,6 +29,10 @@ export const appConfig: ApplicationConfig = {
         httpErrorInterceptor,
         authInterceptor
       ])
-    )
+    ),
+
+    /**Toaster Config*/
+    provideAnimations(),
+    provideToastr()
   ]
 };

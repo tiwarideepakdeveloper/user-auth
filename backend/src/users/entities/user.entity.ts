@@ -25,7 +25,7 @@ export class TblUser {
     default: UserType.LEARNER 
   })
   user_type: UserType;
-
+    
   @ManyToMany(() => TblRole)
   @JoinTable({
     name: 'tbl_user_has_roles',

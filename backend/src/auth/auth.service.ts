@@ -1,13 +1,18 @@
-import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UsersService } from '../users/users.service';
 import { TblUser } from '../users/entities/user.entity';
 import { SignUpDto } from './dto/signup.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { TblSignInAttempt } from './entities/signin-attempt';
+import { MoreThan, Repository } from 'typeorm';
+import { DateUtils } from 'src/common/utils/date.utils';
 
 @Injectable()
 export class AuthService {
   constructor(
+    @InjectRepository(TblSignInAttempt) private signInAttempt: Repository<TblSignInAttempt>,
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
   ) {}
@@ -35,13 +40,40 @@ export class AuthService {
     };
   }
 
-  async validateUser(user_email: string, user_password: string): Promise<TblUser> {
+  async validateUser(user_email: string, user_password: string, sginat_ip: string): Promise<TblUser> {
+    await this.checkBruteForceAttempt(sginat_ip, false);
+
     const user = await this.usersService.findByEmail(user_email);
-    if (!user) throw new UnauthorizedException('Invalid credentials');
+    if (!user) throw new UnauthorizedException('Invalid credentials!');
 
     const passwordMatch = await bcrypt.compare(user_password, user.user_password);
-    if (!passwordMatch) throw new UnauthorizedException('Invalid credentials');
+    if (!passwordMatch) throw new UnauthorizedException('Invalid credentials!');
 
     return user;
   }
+
+  async checkBruteForceAttempt(sginat_ip: string, is_attempt_success : boolean = false) : Promise<TblSignInAttempt> {
+    let attempt = await this.signInAttempt.findOne({ 
+      where : { 
+        sginat_ip, 
+        sginat_updated_at: MoreThan(DateUtils.toMysqlDateTime(new Date(Date.now() - 5 * 60 * 1000)))
+      }
+    });
+    
+    if(attempt && attempt.sginat_attempt_count >= 3) {
+      throw new ForbiddenException('Too many Attempts! Try After Some Time!');
+    }
+
+    if(attempt) {
+      attempt.sginat_attempt_count = is_attempt_success ? 0 : attempt.sginat_attempt_count + 1;
+    } else{
+      attempt = this.signInAttempt.create({ 
+        sginat_ip, 
+        sginat_attempt_count: 0, 
+        sginat_updated_at: DateUtils.toMysqlDateTime() 
+      });
+    }
+    
+    return await this.signInAttempt.save(attempt);
+  } 
 }
