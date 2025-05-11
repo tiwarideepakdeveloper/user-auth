@@ -17,7 +17,7 @@ import { RolesModule } from './roles/roles.module';
       database: process.env.DB_NAME,
       autoLoadEntities: true,
       synchronize: true, // set to false in prod
-      // logging: true,
+      logging: true,
     }),
     AuthModule,
     UsersModule,

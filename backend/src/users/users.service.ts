@@ -1,11 +1,13 @@
 import { ConflictException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Like, Repository } from 'typeorm';
+import { In, Like, Repository } from 'typeorm';
 import { TblUser } from './entities/user.entity';
 import { CreateUser } from './interfaces/create.interface';
 import { TblRole } from 'src/roles/entities/role.entity';
 import { SearchUser } from './interfaces/search.interface';
 import { UserList } from './interfaces/list.interface';
+import { UserSetup } from './interfaces/setup.interface';
+import { UserType } from './enums/user.enum';
 
 @Injectable()
 export class UsersService {
@@ -66,4 +68,28 @@ export class UsersService {
     if(!user) throw new NotFoundException('User not found');
     return user;
   }
+
+  async setup(setupUser: UserSetup): Promise<TblUser> {
+    let user: TblUser | null = null; 
+  
+    if (setupUser.user_id) {
+      user = await this.userRepo.findOneBy({ user_id: setupUser.user_id });
+      if (!user)  throw new ConflictException('INVALID REQUEST');
+    } else {
+      user = this.userRepo.create();
+    }
+  
+    const { user_role_ids } = setupUser;
+  
+    if (user_role_ids?.length) {
+      const roles = await this.roleRepo.find({
+        where: { role_id: In(user_role_ids) },
+        relations: ['permissions'],
+      });
+      user.user_roles = roles;
+    }
+    Object.assign(user, setupUser);
+    return await this.userRepo.save(user);
+  }
+  
 }
