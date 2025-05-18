@@ -22,7 +22,7 @@ export class TblUser {
   @Column({ 
     type: 'enum', 
     enum: UserType, 
-    default: UserType.LEARNER 
+    default: UserType.CLIENT 
   })
   user_type: UserType;
     

@@ -4,10 +4,9 @@ import { In, Like, Repository } from 'typeorm';
 import { TblUser } from './entities/user.entity';
 import { CreateUser } from './interfaces/create.interface';
 import { TblRole } from 'src/roles/entities/role.entity';
-import { SearchUser } from './interfaces/search.interface';
+import { UserSearch } from './interfaces/search.interface';
 import { UserList } from './interfaces/list.interface';
 import { UserSetup } from './interfaces/setup.interface';
-import { UserType } from './enums/user.enum';
 
 @Injectable()
 export class UsersService {
@@ -16,24 +15,27 @@ export class UsersService {
     @InjectRepository(TblRole) private readonly roleRepo: Repository<TblRole>
   ) {}
 
-  async list(searchUser : SearchUser): Promise<UserList> {
+  async getRows(userSearch : UserSearch): Promise<UserList> {
     let findAndCountParam : any = {
-      skip: (searchUser.page - 1) * searchUser.limit,
-      take: searchUser.limit,
+      skip: (userSearch.page - 1) * userSearch.limit,
+      take: userSearch.limit,
       order: { id: 'DESC' },
     };
-    if(searchUser.keyword){
+
+    if(userSearch.keyword){
       findAndCountParam['where'] = [
-        {email : Like(`%${searchUser.keyword}%`)},
-        {first_name: Like(`%${searchUser.keyword}%`)},
-        {last_name: Like(`%${searchUser.keyword}%`)},
+        {email : Like(`%${userSearch.keyword}%`)},
+        {first_name: Like(`%${userSearch.keyword}%`)},
+        {last_name: Like(`%${userSearch.keyword}%`)},
       ];
     }
+
     const [users, total] = await this.userRepo.findAndCount(findAndCountParam);
+    
     return {
       users,
-      page: searchUser.page,
-      limit: searchUser.limit,
+      page: userSearch.page,
+      limit: userSearch.limit,
       recordCount: total
     };
   }

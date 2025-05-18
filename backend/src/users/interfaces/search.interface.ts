@@ -1,4 +1,4 @@
-export interface SearchUser {
+export interface UserSearch {
     permGrpId?: number;
     limit: number;
     page: number;

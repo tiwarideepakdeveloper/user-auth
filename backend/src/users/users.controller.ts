@@ -18,11 +18,11 @@ export class UsersController {
 
   @Get()
   async index(@Query() searchDto : SearchDto) {
-    const data = await this.userService.list(searchDto);
+    const data = await this.userService.getRows(searchDto);
     return new ApiResponse(data, 'User Fetched Success');
   }
 
-  @Permissions('user:create', 'user:update')
+  @Permissions('user:write')
   @Post('setup')
   async setup(@Body() setupDto : UserSetupDto) {
     const data = await this.userService.setup(setupDto);

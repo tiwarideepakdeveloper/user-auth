@@ -15,12 +15,10 @@ export class RoleAndPermissionSeed {
 
     async seedData() {
         const permissions = [
-            'user:create',
+            'user:write',
             'user:read',
-            'user:update',
             'user:delete',
-            'role:create',
-            'role:read',
+            'role:write',
             'role:assign',
             'payment:read',
             'issue:report',
